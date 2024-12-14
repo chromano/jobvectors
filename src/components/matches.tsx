@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Description, DialogTitle } from "@headlessui/react";
 import Modal from "./modal";
 import { Button, SecondaryButton } from "./button";
+import { useRouter } from "next/navigation";
 
 const RemovalConfirmation = ({
     isOpen,
@@ -33,6 +34,7 @@ export default function Matches({ matches }: { matches: any }) {
     const entries = use<MatchQueryResultWithCount>(matches);
     const [matchList, setMatchList] = useState<MatchType[]>([]);
     const [confirmRemoval, setConfirmRemoval] = useState<MatchType | null>(null);
+    const router = useRouter();
 
     const supabase = createClient();
 
@@ -47,20 +49,20 @@ export default function Matches({ matches }: { matches: any }) {
             .from("matches")
             .update({ shortlisted: match.shortlisted })
             .eq("id", match.id);
-        setMatchList([...matchList]);
+        router.refresh();
     };
 
     const onMatchApplied = async (match: MatchType) => {
         match.applied = !match.applied;
 
         await supabase.from("matches").update({ applied: match.applied }).eq("id", match.id);
-        setMatchList([...matchList]);
+        router.refresh();
     };
 
     const onRemovalConfirmed = async (match: MatchType) => {
         setConfirmRemoval(null);
         await supabase.from("matches").update({ dismissed: true }).eq("id", match.id);
-        setMatchList(matchList.filter((m) => m.id !== match.id));
+        router.refresh();
     };
 
     return (
