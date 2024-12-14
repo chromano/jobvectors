@@ -49,6 +49,7 @@ export default function Matches({ matches }: { matches: any }) {
             .from("matches")
             .update({ shortlisted: match.shortlisted })
             .eq("id", match.id);
+        setMatchList([...matchList]);
         router.refresh();
     };
 
@@ -56,12 +57,14 @@ export default function Matches({ matches }: { matches: any }) {
         match.applied = !match.applied;
 
         await supabase.from("matches").update({ applied: match.applied }).eq("id", match.id);
+        setMatchList([...matchList]);
         router.refresh();
     };
 
     const onRemovalConfirmed = async (match: MatchType) => {
         setConfirmRemoval(null);
         await supabase.from("matches").update({ dismissed: true }).eq("id", match.id);
+        setMatchList(matchList.filter((m) => m.id !== match.id));
         router.refresh();
     };
 
