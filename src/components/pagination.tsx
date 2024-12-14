@@ -1,6 +1,7 @@
 import { use } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { MatchQueryResultWithCount } from "@/lib/definitions";
 
 export default function Pagination({
     page,
@@ -8,10 +9,10 @@ export default function Pagination({
     itemsPerPage,
 }: {
     page: number;
-    items: Promise<Array<any>>;
+    items: any;
     itemsPerPage: number;
 }) {
-    const entries = use(items);
+    const entries = use<MatchQueryResultWithCount>(items);
     const totalItems = entries.count;
 
     return (

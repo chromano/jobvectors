@@ -1,5 +1,6 @@
 type Match = {
     id: string;
+    score: number;
     job: {
         role: string;
         company: string;
@@ -7,9 +8,9 @@ type Match = {
     };
 };
 
-type QueryResultWithCount = {
-    data: Array<any>;
+type MatchQueryResultWithCount = {
+    data: Array<Match>;
     count: number;
 };
 
-export type { Match, QueryResultWithCount };
+export type { Match, MatchQueryResultWithCount };

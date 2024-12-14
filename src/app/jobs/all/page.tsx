@@ -9,7 +9,7 @@ const ITEMS_PER_PAGE = 50;
 export default async function AllJobsPage({
     searchParams,
 }: {
-    searchParams: { [key: string]: string | string[] };
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
     const supabase = await createClient();
     const params = await searchParams;

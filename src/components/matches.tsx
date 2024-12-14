@@ -1,10 +1,10 @@
 "use client";
 import { use } from "react";
 import Match from "./match";
-import { Match as MatchType, QueryResultWithCount } from "@/lib/definitions";
+import { MatchQueryResultWithCount, Match as MatchType } from "@/lib/definitions";
 
-export default function Matches({ matches }: { matches: QueryResultWithCount }) {
-    const entries = use(matches);
+export default function Matches({ matches }: { matches: any }) {
+    const entries = use<MatchQueryResultWithCount>(matches);
 
     return (
         <div className="flex flex-col gap-y-4">
