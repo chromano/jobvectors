@@ -1,10 +1,19 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
+// eslint-disable-next-line
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function Modal({ children, onClose, isOpen }) {
+export default function Modal({
+    children,
+    onClose,
+    isOpen,
+}: {
+    children: React.ReactNode;
+    onClose: any;
+    isOpen: boolean;
+}) {
     return (
         <AnimatePresence>
-            <Dialog open={isOpen} onClose={() => onClose(false)} className="relative z-50">
+            <Dialog open={isOpen} onClose={() => onClose(null)} className="relative z-50">
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
