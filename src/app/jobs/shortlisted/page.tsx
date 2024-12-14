@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import Pagination from "@/components/pagination";
 
-const ITEMS_PER_PAGE = 50;
+const ITEMS_PER_PAGE = 30;
 
 export default async function ShortlistedJobsPage({
     searchParams,
@@ -18,6 +18,7 @@ export default async function ShortlistedJobsPage({
         .from("matches")
         .select("*, job:jobs!inner(*)", { count: "exact" })
         .eq("resume_id", 72)
+        .eq("dismissed", false)
         .eq("shortlisted", true)
         .order("score", { ascending: false })
         .order("id", { ascending: true })
