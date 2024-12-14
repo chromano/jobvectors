@@ -94,7 +94,7 @@ export default function Sidebar() {
                                             className="ml-auto size-5 shrink-0 text-gray-400 group-data-[open]:rotate-90 group-data-[open]:text-gray-500"
                                         />
                                     </DisclosureButton>
-                                    <DisclosurePanel as="ul" className="mt-1">
+                                    <DisclosurePanel as="ul" className="mt-1 space-y-1">
                                         {item.children.map((subItem) => (
                                             <li key={subItem.name}>
                                                 <Link
