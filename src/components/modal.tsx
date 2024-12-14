@@ -1,5 +1,4 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
-// eslint-disable-next-line
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Modal({
