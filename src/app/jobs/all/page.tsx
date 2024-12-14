@@ -1,7 +1,7 @@
 import Loading from "@/components/loading";
 import Matches from "@/components/matches";
 import { Suspense } from "react";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import Pagination from "@/components/pagination";
 
 const ITEMS_PER_PAGE = 50;
