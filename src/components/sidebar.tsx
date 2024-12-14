@@ -46,7 +46,7 @@ export default function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="h-full flex grow flex-col gap-y-8 overflow-y-auto border-r border-gray-200 bg-white pt-4">
+        <div className="h-full flex grow flex-col gap-y-8 overflow-y-auto border-gray-200 bg-white pt-4">
             <div className="w-16 mx-auto mt-8">
                 <Logo />
             </div>
@@ -59,21 +59,30 @@ export default function Sidebar() {
                                     href={item.href}
                                     className={classNames(
                                         pathname === item.href
-                                            ? "bg-purple-50 rounded font-semibold"
+                                            ? "bg-purple-800 text-white rounded font-semibold"
                                             : "hover:bg-purple-50",
-                                        "group flex gap-x-3 p-2 text-gray-700",
+                                        "group flex gap-x-3 p-1 pl-2 text-gray-700",
                                     )}>
                                     <item.icon
                                         aria-hidden="true"
-                                        className="size-6 shrink-0 text-gray-400"
+                                        className={
+                                            "size-6 shrink-0 " +
+                                            (item.href === pathname
+                                                ? "text-white"
+                                                : "text-gray-400")
+                                        }
                                     />
                                     {item.name}
                                 </Link>
                             ) : (
-                                <Disclosure as="div">
+                                <Disclosure
+                                    as="div"
+                                    defaultOpen={item.children.some(
+                                        (child) => child.href === pathname,
+                                    )}>
                                     <DisclosureButton
                                         className={
-                                            "hover:bg-purple-50 group flex w-full gap-x-3 rounded-md p-2 text-left text-gray-700"
+                                            "hover:bg-purple-50 group flex w-full gap-x-3 rounded-md p-1 pl-2 text-left text-gray-700"
                                         }>
                                         <item.icon
                                             aria-hidden="true"
@@ -92,13 +101,18 @@ export default function Sidebar() {
                                                     href={subItem.href}
                                                     className={classNames(
                                                         pathname === subItem.href
-                                                            ? "bg-purple-50 rounded font-semibold"
+                                                            ? "bg-purple-800 text-white rounded font-semibold"
                                                             : "hover:bg-purple-50",
-                                                        "group flex gap-x-3 rounded p-2 pr-0 pl-4 text-left text-gray-700",
+                                                        "group flex gap-x-3 rounded p-1 pr-0 pl-8 text-left text-gray-700",
                                                     )}>
                                                     <subItem.icon
                                                         aria-hidden="true"
-                                                        className="size-6 shrink-0 text-gray-400"
+                                                        className={
+                                                            "size-6 shrink-0 " +
+                                                            (pathname === subItem.href
+                                                                ? "text-white"
+                                                                : "text-gray-400")
+                                                        }
                                                     />
                                                     {subItem.name}
                                                 </Link>
