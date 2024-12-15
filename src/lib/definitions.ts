@@ -7,6 +7,9 @@ type Match = {
         role: string;
         company: string;
         location: string;
+        source: string;
+        description: string;
+        apply_at: string;
     };
 };
 
