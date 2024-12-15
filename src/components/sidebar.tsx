@@ -15,27 +15,27 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-    { name: "Dashboard", href: "/", icon: HomeIcon },
+    { name: "Dashboard", href: "/vectors", icon: HomeIcon },
     {
         name: "Resumes",
         icon: EnvelopeIcon,
-        href: "/resumes",
+        href: "/vectors/resumes",
     },
     {
         name: "Jobs",
         icon: FolderIcon,
         children: [
-            { name: "All matches", href: "/jobs/all", icon: SparklesIcon },
-            { name: "Shortlist", href: "/jobs/shortlisted", icon: StarIcon },
+            { name: "All matches", href: "/vectors/jobs/all", icon: SparklesIcon },
+            { name: "Shortlist", href: "/vectors/jobs/shortlisted", icon: StarIcon },
             {
                 name: "Applications",
-                href: "/jobs/applied",
+                href: "/vectors/jobs/applied",
                 icon: PaperAirplaneIcon,
                 current: false,
             },
         ],
     },
-    { name: "Analysis", href: "/analysis", icon: ChartPieIcon },
+    { name: "Analysis", href: "/vectors/analysis", icon: ChartPieIcon },
 ];
 
 function classNames(...classes: string[]) {

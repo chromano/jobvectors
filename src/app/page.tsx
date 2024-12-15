@@ -1,7 +1,13 @@
-export default function Home() {
-    return (
-        <div className="w-full font-[family-name:var(--font-nunito-sans)]">
-            <p className="text-4xl mx-auto font-semibold text-purple-800">Hello world!</p>
-        </div>
-    );
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+
+export default async function Home() {
+    const supabase = await createClient();
+    const response = await supabase.auth.getUser();
+
+    if (response.error) {
+        redirect("/login");
+    } else {
+        redirect("/vectors");
+    }
 }
