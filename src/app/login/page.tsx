@@ -16,7 +16,7 @@ export default function Login() {
                 email,
                 options: {
                     shouldCreateUser: true,
-                    emailRedirectTo: process.env.SITE_URL + "/otp?email=" + email,
+                    emailRedirectTo: process.env.NEXT_PUBLIC_SITE_URL + "/otp?email=" + email,
                 },
             })
             .then(({ error }) => {
