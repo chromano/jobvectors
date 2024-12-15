@@ -47,18 +47,22 @@ const MatchDetails = ({
             <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
                 {match?.job.role} at {match?.job.company}
             </DialogTitle>
-            <Description>
+            <div>
                 <div className="flex justify-center mb-4">
                     <button
-                        className={`py-2 ${
-                            activeTab === "Posting" ? "border-b-2 border-purple-800" : ""
+                        className={`py-0 px-4 font-semibold ${
+                            activeTab === "Posting"
+                                ? "bg-purple-800 text-white rounded-full"
+                                : "text-purple-800"
                         }`}
                         onClick={() => setActiveTab("Posting")}>
                         Posting
                     </button>
                     <button
-                        className={`px-4 py-2 ${
-                            activeTab === "Coverletter" ? "border-b-2 border-purple-800" : ""
+                        className={`px-4 py-1 font-semibold ${
+                            activeTab === "Coverletter"
+                                ? "border-b-2 border-purple-800"
+                                : "text-purple-800"
                         }`}
                         onClick={() => setActiveTab("Coverletter")}>
                         Coverletter
@@ -66,23 +70,25 @@ const MatchDetails = ({
                 </div>
                 <div className="mb-4">
                     {activeTab === "Posting" && (
-                        <div className="overflow-y-auto overflow-x-hidden h-full mb-4">
-                            <p>
-                                <strong>Location:</strong> {match?.job.location}
-                            </p>
-                            <p>
-                                <strong>Source:</strong>{" "}
-                                <a
-                                    className="text-blue-500 hover:underline"
-                                    target="_blank"
-                                    href={
-                                        "https://news.ycombinator.com/item?id=" +
-                                        match?.job.source.split("-")[1]
-                                    }>
-                                    HackerNews
-                                </a>
-                            </p>
-                            <div className="mt-4 max-h-72">
+                        <div className="h-full mb-4">
+                            <div className="flex flex-row gap-x-2 pr-4">
+                                <p className="flex-1">
+                                    <strong>Location:</strong> {match?.job.location}
+                                </p>
+                                <p>
+                                    <strong>Source:</strong>{" "}
+                                    <a
+                                        className="text-blue-500 hover:underline"
+                                        target="_blank"
+                                        href={
+                                            "https://news.ycombinator.com/item?id=" +
+                                            match?.job.source.split("-")[1]
+                                        }>
+                                        HackerNews
+                                    </a>
+                                </p>
+                            </div>
+                            <div className="mt-4 max-h-72 overflow-y-scroll overflow-x-hidden pr-4">
                                 <Prose>{match?.job.description}</Prose>
                                 <p className="mt-4">
                                     <strong>Apply:</strong>{" "}
@@ -100,7 +106,7 @@ const MatchDetails = ({
                         <div className="overflow-y-auto overflow-x-hidden h-full mb-4"></div>
                     )}
                 </div>
-            </Description>
+            </div>
             <div className="flex justify-end gap-4">
                 <SecondaryButton onClick={() => onClose(null)}>Close</SecondaryButton>
             </div>
