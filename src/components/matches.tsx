@@ -7,6 +7,7 @@ import { Description, DialogTitle } from "@headlessui/react";
 import Modal from "./modal";
 import { Button, SecondaryButton } from "./button";
 import { useRouter } from "next/navigation";
+import Prose from "./prose";
 
 const RemovalConfirmation = ({
     isOpen,
@@ -30,10 +31,88 @@ const RemovalConfirmation = ({
     </Modal>
 );
 
+const MatchDetails = ({
+    isOpen,
+    onClose,
+    match,
+}: {
+    isOpen: boolean;
+    onClose: (match: MatchType | null) => void;
+    match: MatchType | null;
+}) => {
+    const [activeTab, setActiveTab] = useState("Posting");
+
+    return (
+        <Modal isOpen={isOpen} onClose={() => onClose(null)}>
+            <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
+                {match?.job.role} at {match?.job.company}
+            </DialogTitle>
+            <Description>
+                <div className="flex justify-center mb-4">
+                    <button
+                        className={`py-2 ${
+                            activeTab === "Posting" ? "border-b-2 border-purple-800" : ""
+                        }`}
+                        onClick={() => setActiveTab("Posting")}>
+                        Posting
+                    </button>
+                    <button
+                        className={`px-4 py-2 ${
+                            activeTab === "Coverletter" ? "border-b-2 border-purple-800" : ""
+                        }`}
+                        onClick={() => setActiveTab("Coverletter")}>
+                        Coverletter
+                    </button>
+                </div>
+                <div className="mb-4">
+                    {activeTab === "Posting" && (
+                        <div className="overflow-y-auto overflow-x-hidden h-full mb-4">
+                            <p>
+                                <strong>Location:</strong> {match?.job.location}
+                            </p>
+                            <p>
+                                <strong>Source:</strong>{" "}
+                                <a
+                                    className="text-blue-500 hover:underline"
+                                    target="_blank"
+                                    href={
+                                        "https://news.ycombinator.com/item?id=" +
+                                        match?.job.source.split("-")[1]
+                                    }>
+                                    HackerNews
+                                </a>
+                            </p>
+                            <div className="mt-4 max-h-72">
+                                <Prose>{match?.job.description}</Prose>
+                                <p className="mt-4">
+                                    <strong>Apply:</strong>{" "}
+                                    <a
+                                        href={match?.job.apply_at}
+                                        target="_blank"
+                                        className="text-blue-500 hover:underline">
+                                        {match?.job.apply_at}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                    {activeTab === "Coverletter" && (
+                        <div className="overflow-y-auto overflow-x-hidden h-full mb-4"></div>
+                    )}
+                </div>
+            </Description>
+            <div className="flex justify-end gap-4">
+                <SecondaryButton onClick={() => onClose(null)}>Close</SecondaryButton>
+            </div>
+        </Modal>
+    );
+};
+
 export default function Matches({ matches }: { matches: any }) {
     const entries = use<MatchQueryResultWithCount>(matches);
     const [matchList, setMatchList] = useState<MatchType[]>([]);
     const [confirmRemoval, setConfirmRemoval] = useState<MatchType | null>(null);
+    const [matchDetails, setMatchDetails] = useState<MatchType | null>(null);
     const router = useRouter();
 
     const supabase = createClient();
@@ -68,6 +147,11 @@ export default function Matches({ matches }: { matches: any }) {
         router.refresh();
     };
 
+    const onMatchDetails = (match: MatchType) => {
+        console.log("Match details", match);
+        setMatchDetails(match);
+    };
+
     return (
         <div className="flex flex-col gap-y-4">
             <RemovalConfirmation
@@ -79,6 +163,11 @@ export default function Matches({ matches }: { matches: any }) {
                         : setConfirmRemoval(null)
                 }
             />
+            <MatchDetails
+                match={matchDetails}
+                onClose={() => setMatchDetails(null)}
+                isOpen={!!matchDetails}
+            />
             <div className={`container grid grid-cols-1 md:grid-cols-2 gap-4 z-0`}>
                 {matchList.map((match: MatchType) => (
                     <Match
@@ -87,6 +176,7 @@ export default function Matches({ matches }: { matches: any }) {
                         onMatchShortlisted={onMatchShortlisted}
                         onMatchApplied={onMatchApplied}
                         onMatchRemoval={setConfirmRemoval}
+                        onMatchDetails={onMatchDetails}
                     />
                 ))}
             </div>

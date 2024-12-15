@@ -13,11 +13,13 @@ export default function Match({
     onMatchShortlisted,
     onMatchApplied,
     onMatchRemoval,
+    onMatchDetails,
 }: {
     match: Match;
     onMatchShortlisted: (match: Match) => void;
     onMatchApplied: (match: Match) => void;
     onMatchRemoval: (match: Match) => void;
+    onMatchDetails: (match: Match) => void;
 }) {
     const toggleShortlist = () => {
         onMatchShortlisted(match);
@@ -72,6 +74,7 @@ export default function Match({
                     </div>
                     <div className="flex-1 text-right">
                         <button
+                            onClick={() => onMatchDetails(match)}
                             className={
                                 "border border-gray-100 text-gray-400 group-hover:border-transparent group-hover:text-white group-hover:bg-purple-800 text-sm px-1.5 py-0.5 rounded font-semibold"
                             }>
