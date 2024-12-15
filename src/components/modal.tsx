@@ -17,13 +17,13 @@ export default function Modal({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 bg-black/30"
+                    className="fixed inset-0 bg-white/80"
                 />
 
                 <div className="fixed -top-40 inset-0 flex w-screen items-center justify-center p-4">
                     <DialogPanel
                         as={motion.div}
-                        className="max-w-lg space-y-8 rounded border-2 border-purple-800 bg-white p-4">
+                        className="w-1/2 space-y-4 rounded border-2 border-purple-800 bg-white p-4">
                         {children}
                     </DialogPanel>
                 </div>
