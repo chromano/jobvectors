@@ -1,13 +1,14 @@
 "use client";
 import { use, useEffect, useState } from "react";
 import Match from "./match";
-import { MatchQueryResultWithCount, Match as MatchType } from "@/lib/definitions";
+import { Match as MatchType } from "@/lib/definitions";
 import { createClient } from "@/lib/supabase/client";
 import { Description, DialogTitle } from "@headlessui/react";
 import Modal from "./modal";
 import { Button, SecondaryButton } from "./button";
 import { useRouter } from "next/navigation";
 import Prose from "./prose";
+import Pagination from "@/components/pagination";
 
 const RemovalConfirmation = ({
     isOpen,
@@ -114,18 +115,24 @@ const MatchDetails = ({
     );
 };
 
-export default function Matches({ matches }: { matches: any }) {
-    const entries = use<MatchQueryResultWithCount>(matches);
-    const [matchList, setMatchList] = useState<MatchType[]>([]);
+export default function Matches({
+    matches,
+    page,
+    itemsPerPage,
+}: {
+    matches: any;
+    page: number;
+    itemsPerPage: number;
+}) {
+    const [matchList, setMatchList] = useState<any>(use(matches));
     const [confirmRemoval, setConfirmRemoval] = useState<MatchType | null>(null);
     const [matchDetails, setMatchDetails] = useState<MatchType | null>(null);
     const router = useRouter();
-
     const supabase = createClient();
 
     useEffect(() => {
-        setMatchList(entries?.data);
-    }, [entries]);
+        matches.then(setMatchList);
+    }, [page, matches]);
 
     const onMatchShortlisted = async (match: MatchType) => {
         match.shortlisted = !match.shortlisted;
@@ -134,7 +141,7 @@ export default function Matches({ matches }: { matches: any }) {
             .from("matches")
             .update({ shortlisted: match.shortlisted })
             .eq("id", match.id);
-        setMatchList([...matchList]);
+        setMatchList({ ...matchList });
         router.refresh();
     };
 
@@ -142,14 +149,13 @@ export default function Matches({ matches }: { matches: any }) {
         match.applied = !match.applied;
 
         await supabase.from("matches").update({ applied: match.applied }).eq("id", match.id);
-        setMatchList([...matchList]);
+        setMatchList({ ...matchList });
         router.refresh();
     };
 
     const onRemovalConfirmed = async (match: MatchType) => {
         setConfirmRemoval(null);
         await supabase.from("matches").update({ dismissed: true }).eq("id", match.id);
-        setMatchList(matchList.filter((m) => m.id !== match.id));
         router.refresh();
     };
 
@@ -159,33 +165,36 @@ export default function Matches({ matches }: { matches: any }) {
     };
 
     return (
-        <div className="flex flex-col gap-y-4">
-            <RemovalConfirmation
-                match={confirmRemoval}
-                isOpen={!!confirmRemoval}
-                onClose={(confirm) =>
-                    confirm && confirmRemoval
-                        ? onRemovalConfirmed(confirmRemoval)
-                        : setConfirmRemoval(null)
-                }
-            />
-            <MatchDetails
-                match={matchDetails}
-                onClose={() => setMatchDetails(null)}
-                isOpen={!!matchDetails}
-            />
-            <div className={`container grid grid-cols-1 md:grid-cols-2 gap-4 z-0`}>
-                {matchList.map((match: MatchType) => (
-                    <Match
-                        match={match}
-                        key={match.id}
-                        onMatchShortlisted={onMatchShortlisted}
-                        onMatchApplied={onMatchApplied}
-                        onMatchRemoval={setConfirmRemoval}
-                        onMatchDetails={onMatchDetails}
-                    />
-                ))}
+        matchList.data && (
+            <div className="flex flex-col gap-y-4">
+                <RemovalConfirmation
+                    match={confirmRemoval}
+                    isOpen={!!confirmRemoval}
+                    onClose={(confirm) =>
+                        confirm && confirmRemoval
+                            ? onRemovalConfirmed(confirmRemoval)
+                            : setConfirmRemoval(null)
+                    }
+                />
+                <MatchDetails
+                    match={matchDetails}
+                    onClose={() => setMatchDetails(null)}
+                    isOpen={!!matchDetails}
+                />
+                <div className={`container grid grid-cols-1 md:grid-cols-2 gap-4 z-0`}>
+                    {matchList.data.map((match: MatchType) => (
+                        <Match
+                            match={match}
+                            key={match.id}
+                            onMatchShortlisted={onMatchShortlisted}
+                            onMatchApplied={onMatchApplied}
+                            onMatchRemoval={setConfirmRemoval}
+                            onMatchDetails={onMatchDetails}
+                        />
+                    ))}
+                </div>
+                <Pagination page={page} items={matchList} itemsPerPage={itemsPerPage} />
             </div>
-        </div>
+        )
     );
 }

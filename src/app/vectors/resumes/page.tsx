@@ -2,11 +2,10 @@
 import { useState, ChangeEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
-
 export default function UploadResume() {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState<boolean>(false);
+    const supabase = createClient();
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         setFile(event.target.files?.[0] || null);

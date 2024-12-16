@@ -1,33 +1,15 @@
 import Loading from "@/components/loading";
-import Matches from "@/components/matches";
 import { Suspense } from "react";
-import { createClient } from "@/lib/supabase/server";
-import Pagination from "@/components/pagination";
+import MatchList from "../list";
 
-const ITEMS_PER_PAGE = 30;
-
-export default async function AllJobsPage({
-    searchParams,
-}: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-    const supabase = await createClient();
-    const params = await searchParams;
-    const page = params.page ? parseInt(params.page as string, 10) : 0;
-    const matches = supabase
-        .from("matches")
-        .select("*, job:jobs!inner(*)", { count: "exact" })
-        .eq("resume_id", 72)
-        .eq("dismissed", false)
-        .order("score", { ascending: false })
-        .order("id", { ascending: true })
-        .range(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE - 1);
+export default async function AllJobsPage({ searchParams }: { searchParams: any }) {
+    const page = parseInt((await searchParams).page, 10) || 0;
+    const filters: { field: string; value: boolean }[] = [];
 
     return (
         <div>
             <Suspense fallback={<Loading />}>
-                <Matches matches={matches} />
-                <Pagination itemsPerPage={ITEMS_PER_PAGE} items={matches} page={page} />
+                <MatchList filters={filters} page={page} />
             </Suspense>
         </div>
     );
