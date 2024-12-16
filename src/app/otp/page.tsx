@@ -1,12 +1,11 @@
-"use client";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 
-export default function Otp() {
-    const supabase = createClient();
+export default async function Otp() {
+    const supabase = await createClient();
 
-    supabase.auth.getSession().then((response) => {
-        if (response.data?.session?.user) {
+    supabase.auth.getUser().then((response) => {
+        if (response.data?.user) {
             redirect("/vectors");
         }
     });
