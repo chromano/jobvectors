@@ -1,7 +1,5 @@
-import { use } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { MatchQueryResultWithCount } from "@/lib/definitions";
 
 export default function Pagination({
     page,
@@ -12,7 +10,7 @@ export default function Pagination({
     items: any;
     itemsPerPage: number;
 }) {
-    const entries = use<MatchQueryResultWithCount>(items);
+    const entries = items;
     const totalItems = entries.count;
 
     return (
@@ -57,7 +55,7 @@ export default function Pagination({
                         {Array(Math.ceil(totalItems / itemsPerPage))
                             .fill(0)
                             .map((_, idx) => (
-                                <a
+                                <Link
                                     key={idx}
                                     href={"?page=" + idx}
                                     className={
@@ -67,7 +65,7 @@ export default function Pagination({
                                             : "text-gray-900 hover:text-purple-800")
                                     }>
                                     {idx + 1}
-                                </a>
+                                </Link>
                             ))}
                         <Link
                             href="#"
