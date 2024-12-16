@@ -42,7 +42,8 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Sidebar() {
+// eslint-disable-next-line
+export default function Sidebar({ user }: { user: any }) {
     const pathname = usePathname();
 
     return (

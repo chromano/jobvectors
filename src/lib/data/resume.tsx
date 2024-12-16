@@ -1,7 +1,7 @@
 import { cache } from "react";
 
 export const getLastResume = cache(
-    async (supabase, user) =>
+    async (supabase: any, user: any) =>
         await supabase
             .from("resumes")
             .select("id")
