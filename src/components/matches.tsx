@@ -57,11 +57,18 @@ const MatchDetails = ({
                 .then((response) => {
                     setCoverletter(response.data.coverLetter);
                 });
+        } else {
+            setCoverletter("");
         }
     }, [activeTab, match]); // eslint-disable-line
 
+    const close = () => {
+        setActiveTab("Posting");
+        onClose(null);
+    };
+
     return (
-        <Modal isOpen={isOpen} onClose={() => onClose(null)}>
+        <Modal isOpen={isOpen} onClose={close}>
             <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
                 {match?.job.role} at {match?.job.company}
             </DialogTitle>
