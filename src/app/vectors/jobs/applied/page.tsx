@@ -3,12 +3,12 @@ import { Suspense } from "react";
 import MatchList from "../list";
 
 export default async function AppliedJobsPage({ searchParams }: { searchParams: any }) {
-    const page = parseInt((await searchParams).page, 10) || 0;
     const filters = [{ field: "applied", value: true }];
+    const params = await searchParams;
 
     return (
         <Suspense fallback={<Loading />}>
-            <MatchList filters={filters} page={page} />
+            <MatchList filters={filters} params={params} />
         </Suspense>
     );
 }

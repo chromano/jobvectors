@@ -1,14 +1,15 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Match from "./match";
 import { Match as MatchType } from "@/lib/definitions";
-import { createClient } from "@/lib/supabase/client";
 import { Description, DialogTitle } from "@headlessui/react";
 import Modal from "./modal";
 import { Button, SecondaryButton } from "./button";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Prose from "./prose";
 import Pagination from "@/components/pagination";
+import { ResumeDropdown } from "@/components/resume";
+import { applyMatch, dismissMatch, shortlistMatch } from "@/lib/data/matches";
 
 const RemovalConfirmation = ({
     isOpen,
@@ -62,7 +63,7 @@ const MatchDetails = ({
                     <button
                         className={`px-4 py-1 font-semibold ${
                             activeTab === "Coverletter"
-                                ? "border-b-2 border-purple-800"
+                                ? "bg-purple-800 text-white rounded-full"
                                 : "text-purple-800"
                         }`}
                         onClick={() => setActiveTab("Coverletter")}>
@@ -104,7 +105,7 @@ const MatchDetails = ({
                         </div>
                     )}
                     {activeTab === "Coverletter" && (
-                        <div className="overflow-y-auto overflow-x-hidden h-full mb-4"></div>
+                        <div className="overflow-y-auto overflow-x-hidden max-h-72 mb-4"></div>
                     )}
                 </div>
             </div>
@@ -116,46 +117,42 @@ const MatchDetails = ({
 };
 
 export default function Matches({
+    resumes,
     matches,
-    page,
     itemsPerPage,
 }: {
+    resumes: { id: number; title: string }[] | null;
     matches: any;
-    page: number;
     itemsPerPage: number;
 }) {
-    const [matchList, setMatchList] = useState<any>(use(matches));
+    const searchParams = useSearchParams();
+    const [matchList, setMatchList] = useState<any>();
     const [confirmRemoval, setConfirmRemoval] = useState<MatchType | null>(null);
     const [matchDetails, setMatchDetails] = useState<MatchType | null>(null);
+    const [activeResume, setActiveResume] = useState<any>();
+    const page = parseInt(searchParams.get("page") || "0", 10);
     const router = useRouter();
-    const supabase = createClient();
 
     useEffect(() => {
-        matches.then(setMatchList);
-    }, [page, matches]);
+        if (resumes && resumes.length > 0) {
+            setActiveResume(resumes[0]);
+        }
+        setMatchList(matches);
+    }, [matches, resumes]);
 
-    const onMatchShortlisted = async (match: MatchType) => {
-        match.shortlisted = !match.shortlisted;
-
-        await supabase
-            .from("matches")
-            .update({ shortlisted: match.shortlisted })
-            .eq("id", match.id);
-        setMatchList({ ...matchList });
+    const onMatchShortlisted = (match: MatchType) => {
+        shortlistMatch(match.id, !match.shortlisted);
         router.refresh();
     };
 
     const onMatchApplied = async (match: MatchType) => {
-        match.applied = !match.applied;
-
-        await supabase.from("matches").update({ applied: match.applied }).eq("id", match.id);
-        setMatchList({ ...matchList });
+        applyMatch(match.id, !match.applied);
         router.refresh();
     };
 
-    const onRemovalConfirmed = async (match: MatchType) => {
+    const onRemovalConfirmed = (match: MatchType) => {
         setConfirmRemoval(null);
-        await supabase.from("matches").update({ dismissed: true }).eq("id", match.id);
+        dismissMatch(match.id);
         router.refresh();
     };
 
@@ -165,6 +162,7 @@ export default function Matches({
     };
 
     return (
+        matchList &&
         matchList.data && (
             <div className="flex flex-col gap-y-4">
                 <RemovalConfirmation
@@ -181,6 +179,11 @@ export default function Matches({
                     onClose={() => setMatchDetails(null)}
                     isOpen={!!matchDetails}
                 />
+                <ResumeDropdown
+                    resumes={resumes && resumes.length > 0 ? resumes : []}
+                    initial={activeResume}
+                />
+
                 <div className={`container grid grid-cols-1 md:grid-cols-2 gap-4 z-0`}>
                     {matchList.data.map((match: MatchType) => (
                         <Match
