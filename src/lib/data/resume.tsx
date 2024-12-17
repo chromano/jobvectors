@@ -10,3 +10,12 @@ export const getLastResume = cache(
             .limit(1)
             .single(),
 );
+
+export const getResumes = cache(
+    async (supabase: any, userId: any) =>
+        await supabase
+            .from("resumes")
+            .select("id, title")
+            .eq("user", userId)
+            .order("created_at", { ascending: false }),
+);

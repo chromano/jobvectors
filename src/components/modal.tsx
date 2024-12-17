@@ -5,10 +5,12 @@ export default function Modal({
     children,
     onClose,
     isOpen,
+    size = "w-1/2",
 }: {
     children: React.ReactNode;
     onClose: any;
     isOpen: boolean;
+    size: string;
 }) {
     return (
         <AnimatePresence>
@@ -23,7 +25,9 @@ export default function Modal({
                 <div className="fixed -top-40 inset-0 flex w-screen items-center justify-center p-4">
                     <DialogPanel
                         as={motion.div}
-                        className="w-1/2 space-y-4 rounded border-2 border-purple-800 bg-white p-4">
+                        className={
+                            size + "space-y-4 rounded border-2 border-purple-800 bg-white p-4"
+                        }>
                         {children}
                     </DialogPanel>
                 </div>

@@ -22,7 +22,7 @@ const RemovalConfirmation = ({
     onClose: (match: MatchType | null) => void;
     match: MatchType | null;
 }) => (
-    <Modal isOpen={isOpen} onClose={() => onClose(null)}>
+    <Modal size="w-1/2" isOpen={isOpen} onClose={() => onClose(null)}>
         <DialogTitle className="font-bold">Match Removal</DialogTitle>
         <Description>
             This will permanently remove the match. You can always keep a shortlist of relevant
@@ -68,7 +68,7 @@ const MatchDetails = ({
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={close}>
+        <Modal size="w-1/2" isOpen={isOpen} onClose={close}>
             <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
                 {match?.job.role} at {match?.job.company}
             </DialogTitle>

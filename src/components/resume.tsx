@@ -5,7 +5,7 @@ import { Menu } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import { useRouter, useSearchParams } from "next/navigation";
 
-function ResumeForm() {
+function ResumeForm({ onComplete }: { onComplete: (id: string | number) => void }) {
     const [title, setTitle] = useState("");
     const [file, setFile] = useState<File | null>(null);
     const [message, setMessage] = useState("");
@@ -38,6 +38,7 @@ function ResumeForm() {
             console.error("Error uploading file:", error.message);
         } else {
             console.log("File uploaded successfully:", data);
+            onComplete(data.id);
         }
 
         // Handle form submission logic here
@@ -46,9 +47,8 @@ function ResumeForm() {
     };
 
     return (
-        <div className="max-w-md mx-auto rounded p-4">
+        <div className="w-full rounded">
             <form inert={uploading} onSubmit={handleSubmit} className="">
-                <h2 className="text-purple-800 text-xl font-bold mb-4">Submit Your Resume</h2>
                 {error && <p className="text-red-500 my-2">{error}</p>}
                 {message && <p className="text-green-700 my-2">{message}</p>}
 
@@ -67,7 +67,7 @@ function ResumeForm() {
                         id="file"
                         type="file"
                         onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-                        className="flex w-full rounded-md border border-input bg-background px-0.5 file:rounded py-0.5 text-gray-400 file:text-gray-500 shadow-sm transition-colors file:border-0 file:bg-gray-100 file:text-foreground file:mr-2 file:px-2 file:hover:cursor-pointer file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-gray-600 focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex w-full rounded bg-background text-gray-400 file:text-gray-600 transition-colors file:border-0 file:bg-gray-200 file:text-foreground file:mr-2 file:px-2 file:hover:cursor-pointer file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-gray-600 focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                     />
                 </div>
                 <div className="flex items-center justify-end">
@@ -111,18 +111,13 @@ function ResumeDropdown({ resumes, initial }: { resumes: any[]; initial: any }) 
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentParams = new URLSearchParams(searchParams.toString());
-    const resumeId = currentParams.get("resume");
+    const resumeId = currentParams.get("resume") || initial;
 
     useEffect(() => {
-        if (resumeId) {
-            const resume = resumes.find((r) => r.id === parseInt(resumeId, 10));
-            if (resume) {
-                setSelected(resume);
-                return;
-            }
+        const resume = resumes.find((r) => r.id === parseInt(resumeId, 10));
+        if (resume) {
+            setSelected(resume);
         }
-
-        setSelected(initial);
     }, [resumeId, resumes, initial]);
 
     const onChange = (resume: any) => {
