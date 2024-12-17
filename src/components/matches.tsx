@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Match from "./match";
 import { Match as MatchType } from "@/lib/definitions";
+import { createClient } from "@/lib/supabase/client";
 import { Description, DialogTitle } from "@headlessui/react";
 import Modal from "./modal";
 import { Button, SecondaryButton } from "./button";
@@ -10,6 +11,7 @@ import Prose from "./prose";
 import Pagination from "@/components/pagination";
 import { ResumeDropdown } from "@/components/resume";
 import { applyMatch, dismissMatch, shortlistMatch } from "@/lib/data/matches";
+import Loading from "@/components/loading";
 
 const RemovalConfirmation = ({
     isOpen,
@@ -43,6 +45,20 @@ const MatchDetails = ({
     match: MatchType | null;
 }) => {
     const [activeTab, setActiveTab] = useState("Posting");
+    const [coverletter, setCoverletter] = useState("");
+    const supabase = createClient();
+
+    useEffect(() => {
+        if (activeTab === "Coverletter" && !coverletter && match) {
+            supabase.functions
+                .invoke("coverletters", {
+                    body: { matchId: match.id },
+                })
+                .then((response) => {
+                    setCoverletter(response.data.coverLetter);
+                });
+        }
+    }, [activeTab, match]); // eslint-disable-line
 
     return (
         <Modal isOpen={isOpen} onClose={() => onClose(null)}>
@@ -105,7 +121,13 @@ const MatchDetails = ({
                         </div>
                     )}
                     {activeTab === "Coverletter" && (
-                        <div className="overflow-y-auto overflow-x-hidden max-h-72 mb-4"></div>
+                        <div className="overflow-y-auto overflow-x-hidden max-h-72 mb-4">
+                            {coverletter ? (
+                                <Prose>{coverletter}</Prose>
+                            ) : (
+                                <Loading hideLabel={true} />
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
