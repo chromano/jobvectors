@@ -1,12 +1,7 @@
 "use client";
 import type { Match } from "@/lib/definitions";
 import Score from "./score";
-import {
-    TrashIcon,
-    StarIcon,
-    PaperAirplaneIcon,
-    PlusCircleIcon,
-} from "@heroicons/react/24/outline";
+import { TrashIcon, StarIcon, PaperAirplaneIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 export default function Match({
     match,
@@ -35,7 +30,7 @@ export default function Match({
 
     return (
         <>
-            <div className="group flex flex-col flex-1 h-full bg-white rounded border border-gray-200 p-4 hover:border-purple-800 hover:outline hover:outline-purple-800">
+            <div className="group flex flex-col flex-1 h-full bg-white rounded border border-gray-200 p-2 hover:border-purple-800 hover:outline hover:outline-purple-800">
                 <div className="flex justify-between items-start">
                     <h2 className="text-md font-bold text-gray-800 whitespace-nowrap text-ellipsis overflow-hidden">
                         {match.job.role}
@@ -76,9 +71,9 @@ export default function Match({
                         <button
                             onClick={() => onMatchDetails(match)}
                             className={
-                                "border border-gray-100 text-gray-400 group-hover:border-transparent group-hover:text-white group-hover:bg-purple-800 text-sm px-1.5 py-0.5 rounded font-semibold"
+                                " text-gray-400 group-hover:border-transparent hover:text-purple-800 text-sm px-1.5 py-0.5 rounded font-semibold"
                             }>
-                            <PlusCircleIcon className="w-4 h-4 inline-block -mt-0.5" /> Details
+                            <PlusIcon className="w-3 h-3 inline-block -mt-0.5" /> Details
                         </button>
                     </div>
                 </div>
