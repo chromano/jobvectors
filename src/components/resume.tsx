@@ -112,7 +112,7 @@ function ResumeDropdown({ resumes, initial }: { resumes: any; initial: any }) {
     const searchParams = useSearchParams();
     const currentParams = new URLSearchParams(searchParams.toString());
     const resumeId = currentParams.get("resume") || initial;
-    const resumeList = use(resumes);
+    const resumeList: { data: { id: number }[] } = use(resumes);
 
     useEffect(() => {
         if (!resumeId) {

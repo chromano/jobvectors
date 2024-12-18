@@ -9,7 +9,6 @@ import { Button, SecondaryButton } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
 import Prose from "./prose";
 import Pagination from "@/components/pagination";
-import { ResumeDropdown } from "@/components/resume";
 import { applyMatch, dismissMatch, shortlistMatch } from "@/lib/data/matches";
 import Loading from "@/components/loading";
 

@@ -3,7 +3,7 @@ import { ResumeForm } from "@/components/resume";
 import Modal from "@/components/modal";
 import { ResumeDropdown } from "@/components/resume";
 import { DialogTitle } from "@headlessui/react";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SecondaryButton } from "@/components/button";
 import { useRouter } from "next/navigation";

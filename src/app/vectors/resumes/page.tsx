@@ -41,8 +41,11 @@ export default async function ResumePage({ searchParams }: { searchParams: any }
                             <div className="font-semibold text-center mb-2">Matches</div>
                             <Gauge
                                 perc={
-                                    matches?.data.filter((m) => m.score >= 0.5).length /
-                                    matches.data.length
+                                    (matches &&
+                                        matches.data &&
+                                        matches.data.filter((m) => m.score >= 0.5).length /
+                                            matches.data.length) ||
+                                    0
                                 }
                             />
                         </div>
@@ -51,7 +54,8 @@ export default async function ResumePage({ searchParams }: { searchParams: any }
                             <Gauge
                                 perc={
                                     resume.skills.filter(
-                                        (s) => demandedSkillNames.indexOf(s.toLowerCase()) != -1,
+                                        (s: string) =>
+                                            demandedSkillNames.indexOf(s.toLowerCase()) != -1,
                                     ).length / demandedSkillNames.length
                                 }
                             />
