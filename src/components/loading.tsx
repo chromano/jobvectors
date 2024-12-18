@@ -1,12 +1,12 @@
 export default function Loading({ hideLabel = false }: { hideLabel?: boolean }) {
     return (
-        <div>
+        <div className="z-50 fixed top-2 left-1/2 rounded bg-purple-800/75 text-white">
             <button
                 type="button"
-                className="mx-auto text-purple-800 rounded flex flex-row bg-white font-semibold p-2"
+                className="mx-auto rounded flex flex-row font-semibold px-2 py-1"
                 disabled>
                 <svg
-                    className="animate-spin mt-0.5 mr-3 h-5 w-5 text-purple-800"
+                    className="animate-spin mt-0.5 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24">
