@@ -6,19 +6,22 @@ import SkillsCloud from "@/components/skillscloud";
 import Scores from "./scores";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
+import { cookies } from "next/headers";
 
-export default async function ResumePage({ searchParams }: { searchParams: any }) {
+export default async function ResumePage() {
     const supabase = await createClient();
-    const params = await searchParams;
 
     const user = await supabase.auth.getUser();
     const resumes = getResumes(supabase, user.data.user && user.data.user.id);
     let resume, score, matches;
+    const cookieStore = await cookies();
+    const cookieValue = cookieStore.get("resume");
+    const resumeId = cookieValue && cookieValue.value;
 
-    if (params.resume) {
-        resume = await getResume(supabase, params.resume);
-        score = getHighestMatchScore(params.resume);
-        matches = getAllMatches(params.resume);
+    if (resumeId) {
+        resume = await getResume(supabase, resumeId);
+        score = getHighestMatchScore(resumeId);
+        matches = getAllMatches(resumeId);
     }
 
     const demandedSkills = await supabase.rpc("count_skills");
@@ -31,7 +34,7 @@ export default async function ResumePage({ searchParams }: { searchParams: any }
         <div>
             <Header resumes={resumes} />
 
-            {params.resume && (
+            {resume && (
                 <Suspense key={Date.now()} fallback={<Loading />}>
                     <>
                         <Scores

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getMatches } from "@/lib/data/matches";
 import { getResumes } from "@/lib/data/resume";
 import { ResumeDropdown } from "@/components/resume";
+import { cookies } from "next/headers";
 
 const ITEMS_PER_PAGE = 30;
 
@@ -19,12 +20,14 @@ export default async function MatchList({
     const supabase = await createClient();
     const user = await supabase.auth.getUser();
     const resumes = getResumes(supabase, user.data.user && user.data.user.id);
-    const matches =
-        params.resume && getMatches(params.resume, filters, params.page, ITEMS_PER_PAGE);
+    const cookiesStore = await cookies();
+    const cookieVal = cookiesStore.get("resume");
+    const resumeId = cookieVal && cookieVal.value;
+    const matches = resumeId && getMatches(resumeId, filters, params.page, ITEMS_PER_PAGE);
 
     return (
         <div className="flex flex-col gap-4">
-            <ResumeDropdown resumes={resumes} initial={params.resume} />
+            <ResumeDropdown resumes={resumes} initial={resumeId} />
 
             <Suspense key={Date.now()} fallback={<Loading />}>
                 <Matches matches={matches} itemsPerPage={ITEMS_PER_PAGE} />

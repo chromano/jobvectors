@@ -3,7 +3,7 @@ import React, { use, useState, useEffect, FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Menu } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function ResumeForm({ onComplete }: { onComplete: (id: string | number) => void }) {
     const [title, setTitle] = useState("");
@@ -105,13 +105,14 @@ function ResumeForm({ onComplete }: { onComplete: (id: string | number) => void 
         </div>
     );
 }
+import { useCookies } from "react-cookie";
 
 function ResumeDropdown({ resumes, initial }: { resumes: any; initial: any }) {
     const [selected, setSelected] = useState<any | null>();
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const currentParams = new URLSearchParams(searchParams.toString());
-    const resumeId = currentParams.get("resume") || initial;
+    const [cookies, setCookie] = useCookies(["resume"]);
+
+    const resumeId = cookies.resume || initial;
     const resumeList: { data: { id: number }[] } = use(resumes);
 
     useEffect(() => {
@@ -127,8 +128,8 @@ function ResumeDropdown({ resumes, initial }: { resumes: any; initial: any }) {
     const onChange = (resume: any) => {
         setSelected(resume);
 
-        currentParams.set("resume", resume.id);
-        router.replace(`?${currentParams.toString()}`, { scroll: false });
+        setCookie("resume", resume.id, { path: "/" });
+        router.refresh();
     };
 
     return (
