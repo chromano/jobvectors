@@ -18,17 +18,13 @@ export default async function RootLayout({
     const user = await getUser(supabase);
 
     return (
-        <html lang="en">
-            <body>
-                <div className="w-full lg:w-4/5 mx-auto font-[family-name:var(--font-geist-sans)]">
-                    <div className="flex flex-1 flex-row gap-2">
-                        <div className="hidden md:flex w-2/5 lg:w-1/3 h-screen sticky top-0 mx-2">
-                            <Sidebar user={user} />
-                        </div>
-                        <main className="w-full mt-4">{children}</main>
-                    </div>
+        <div className="w-full lg:w-4/5 mx-auto font-[family-name:var(--font-geist-sans)]">
+            <div className="flex flex-1 flex-row">
+                <div className="hidden md:flex w-2/5 lg:w-1/3 h-screen sticky top-0 mx-2">
+                    <Sidebar user={user} />
                 </div>
-            </body>
-        </html>
+                <main className="w-full m-4">{children}</main>
+            </div>
+        </div>
     );
 }
