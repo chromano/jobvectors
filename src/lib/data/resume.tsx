@@ -15,7 +15,7 @@ export const getResumes = cache(
     async (supabase: any, userId: any) =>
         await supabase
             .from("resumes")
-            .select("id, title")
+            .select("id, title, skills")
             .eq("user", userId)
             .order("created_at", { ascending: false }),
 );

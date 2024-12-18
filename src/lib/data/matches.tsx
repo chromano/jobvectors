@@ -37,3 +37,29 @@ export async function getMatches(resumeId: any, filters: any, page: any, itemsPe
 
     return query;
 }
+
+export async function getAllMatches(resumeId: any) {
+    const supabase = await createClient();
+
+    return supabase
+        .from("matches")
+        .select("*, job:jobs!inner(*)", { count: "exact" })
+        .eq("resume_id", resumeId)
+        .eq("dismissed", false)
+        .order("score", { ascending: false })
+        .order("id", { ascending: true });
+}
+
+export async function getHighestMatchScore(resumeId: any) {
+    const supabase = await createClient();
+
+    const { data } = await supabase
+        .from("matches")
+        .select("score")
+        .eq("resume_id", resumeId)
+        .order("score", { ascending: false })
+        .limit(1)
+        .single();
+
+    return data?.score;
+}
