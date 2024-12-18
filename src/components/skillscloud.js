@@ -18,11 +18,13 @@ const SkillsCloud = ({ skills }) => {
     };
 
     return (
-        <div className="flex justify-center flex-wrap align-center gap-2 text-pretty">
+        <div className="flex justify-between flex-wrap gap-2 text-pretty">
             {skills.map((skill, index) => (
-                <span key={index} className={`m-0 p-0 leading-5 ${getFontSizeClass(skill.total)}`}>
+                <div
+                    key={index}
+                    className={`inline-flex m-0 p-0 leading-5 ${getFontSizeClass(skill.total)}`}>
                     {skill.skill}
-                </span>
+                </div>
             ))}
         </div>
     );

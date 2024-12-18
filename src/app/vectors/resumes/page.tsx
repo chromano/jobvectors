@@ -41,8 +41,8 @@ export default async function ResumePage({ searchParams }: { searchParams: any }
                             demandedSkills={demandedSkills}
                         />
                         <div className="mt-6">
-                            <p className="font-semibold">Skills Extracted</p>
-                            <div className="flex justify-center flex-wrap w-full text-justify pt-4 gap-2">
+                            <p className="font-semibold mb-4">Skills Extracted</p>
+                            <div className="flex flex-wrap w-full justify-between gap-2">
                                 {resume &&
                                     resume.data.skills.sort().map((skill: any) => (
                                         <div
@@ -61,9 +61,9 @@ export default async function ResumePage({ searchParams }: { searchParams: any }
                         </div>
 
                         <div className="mt-6 mb-6">
-                            <p className="font-semibold">Demanded Skills</p>
+                            <p className="font-semibold mb-4">Demanded Skills</p>
 
-                            <div className="flex justify-center w-full pt-8 px-2">
+                            <div className="flex w-full">
                                 <SkillsCloud skills={demandedSkills.data.slice(0, 35)} />
                             </div>
                         </div>
