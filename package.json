@@ -12,6 +12,7 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@supabase/ssr": "^0.5.2",
+    "d3": "^7.9.0",
     "framer-motion": "^11.14.4",
     "motion": "^11.14.4",
     "next": "15.1.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@tailwindcss/typography": "^0.5.15",
+    "@types/d3": "^7.4.3",
     "@types/node": "^20.17.10",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
