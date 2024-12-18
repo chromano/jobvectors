@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { use, useState, useEffect, FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Menu } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
@@ -106,19 +106,23 @@ function ResumeForm({ onComplete }: { onComplete: (id: string | number) => void 
     );
 }
 
-function ResumeDropdown({ resumes, initial }: { resumes: any[]; initial: any }) {
+function ResumeDropdown({ resumes, initial }: { resumes: any; initial: any }) {
     const [selected, setSelected] = useState<any | null>();
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentParams = new URLSearchParams(searchParams.toString());
     const resumeId = currentParams.get("resume") || initial;
+    const resumeList = use(resumes);
 
     useEffect(() => {
-        const resume = resumes.find((r) => r.id === parseInt(resumeId, 10));
+        if (!resumeId) {
+            return;
+        }
+        const resume = resumeList.data.find((r) => r.id === parseInt(resumeId, 10));
         if (resume) {
             setSelected(resume);
         }
-    }, [resumeId, resumes, initial]);
+    }, [resumeId, resumeList]);
 
     const onChange = (resume: any) => {
         setSelected(resume);
@@ -128,53 +132,55 @@ function ResumeDropdown({ resumes, initial }: { resumes: any[]; initial: any }) 
     };
 
     return (
-        <Menu as="div" className="relative inline-block text-left w-full">
-            <div>
-                <Menu.Button className="inline-flex justify-between w-full rounded ring-1 ring-gray-300 px-2 py-1 bg-white font-medium text-gray-500 hover:bg-gray-50">
-                    {({ open }) =>
-                        open ? (
-                            <>
-                                {selected?.id ? (
-                                    <span className="text-gray-800">{selected.title}</span>
-                                ) : (
-                                    "Select"
-                                )}
-                                <ChevronUpIcon className="text-gray-400 w-4 h-4 mt-1" />
-                            </>
-                        ) : (
-                            <>
-                                {selected?.id ? (
-                                    <span className="text-gray-800">{selected.title}</span>
-                                ) : (
-                                    "Select"
-                                )}
-                                <ChevronDownIcon className="text-gray-400 w-4 h-4 mt-1" />
-                            </>
-                        )
-                    }
-                </Menu.Button>
-            </div>
-            <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-full p-1 rounded bg-white border border-gray-300 ring-opacity-50 focus:outline-none">
-                <div className="overflow-hidden overflow-y-scroll max-h-64">
-                    {resumes.map((resume) => (
-                        <Menu.Item key={resume.id}>
-                            {({ active }) => (
-                                <button
-                                    onClick={() => {
-                                        setSelected(resume);
-                                        onChange(resume);
-                                    }}
-                                    className={`${
-                                        active ? "bg-purple-100 text-gray-900" : "text-gray-700"
-                                    }  group flex rounded items-center w-[calc(100%-3px)] px-2 py-1`}>
-                                    {resume.title}
-                                </button>
-                            )}
-                        </Menu.Item>
-                    ))}
+        resumeList.data && (
+            <Menu as="div" className="relative inline-block text-left w-full">
+                <div>
+                    <Menu.Button className="inline-flex justify-between w-full rounded ring-1 ring-gray-300 px-2 py-1 bg-white font-medium text-gray-500 hover:bg-gray-50">
+                        {({ open }) =>
+                            open ? (
+                                <>
+                                    {selected?.id ? (
+                                        <span className="text-gray-800">{selected.title}</span>
+                                    ) : (
+                                        "Select"
+                                    )}
+                                    <ChevronUpIcon className="text-gray-400 w-4 h-4 mt-1" />
+                                </>
+                            ) : (
+                                <>
+                                    {selected?.id ? (
+                                        <span className="text-gray-800">{selected.title}</span>
+                                    ) : (
+                                        "Select"
+                                    )}
+                                    <ChevronDownIcon className="text-gray-400 w-4 h-4 mt-1" />
+                                </>
+                            )
+                        }
+                    </Menu.Button>
                 </div>
-            </Menu.Items>
-        </Menu>
+                <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-full p-1 rounded bg-white border border-gray-300 ring-opacity-50 focus:outline-none">
+                    <div className="overflow-hidden overflow-y-scroll max-h-64">
+                        {resumeList.data.map((resume: any) => (
+                            <Menu.Item key={resume.id}>
+                                {({ active }) => (
+                                    <button
+                                        onClick={() => {
+                                            setSelected(resume);
+                                            onChange(resume);
+                                        }}
+                                        className={`${
+                                            active ? "bg-purple-100 text-gray-900" : "text-gray-700"
+                                        }  group flex rounded items-center w-[calc(100%-3px)] px-2 py-1`}>
+                                        {resume.title}
+                                    </button>
+                                )}
+                            </Menu.Item>
+                        ))}
+                    </div>
+                </Menu.Items>
+            </Menu>
+        )
     );
 }
 

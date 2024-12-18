@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Match from "./match";
 import { Match as MatchType } from "@/lib/definitions";
 import { createClient } from "@/lib/supabase/client";
@@ -145,29 +145,13 @@ const MatchDetails = ({
     );
 };
 
-export default function Matches({
-    resumes,
-    matches,
-    itemsPerPage,
-}: {
-    resumes: { id: number; title: string }[] | null;
-    matches: any;
-    itemsPerPage: number;
-}) {
+export default function Matches({ matches, itemsPerPage }: { matches: any; itemsPerPage: number }) {
     const searchParams = useSearchParams();
-    const [matchList, setMatchList] = useState<any>();
+    const matchList = matches && use(matches);
     const [confirmRemoval, setConfirmRemoval] = useState<MatchType | null>(null);
     const [matchDetails, setMatchDetails] = useState<MatchType | null>(null);
-    const [activeResume, setActiveResume] = useState<any>();
     const page = parseInt(searchParams.get("page") || "0", 10);
     const router = useRouter();
-
-    useEffect(() => {
-        if (resumes && resumes.length > 0) {
-            setActiveResume(resumes[0]);
-        }
-        setMatchList(matches);
-    }, [matches, resumes]);
 
     const onMatchShortlisted = (match: MatchType) => {
         shortlistMatch(match.id, !match.shortlisted);
@@ -191,42 +175,38 @@ export default function Matches({
     };
 
     return (
-        matchList &&
-        matchList.data && (
-            <div className="flex flex-col gap-y-4">
-                <RemovalConfirmation
-                    match={confirmRemoval}
-                    isOpen={!!confirmRemoval}
-                    onClose={(confirm) =>
-                        confirm && confirmRemoval
-                            ? onRemovalConfirmed(confirmRemoval)
-                            : setConfirmRemoval(null)
-                    }
-                />
-                <MatchDetails
-                    match={matchDetails}
-                    onClose={() => setMatchDetails(null)}
-                    isOpen={!!matchDetails}
-                />
-                <ResumeDropdown
-                    resumes={resumes && resumes.length > 0 ? resumes : []}
-                    initial={activeResume}
-                />
-
-                <div className={`container grid grid-cols-1 md:grid-cols-2 gap-4 z-0`}>
-                    {matchList.data.map((match: MatchType) => (
-                        <Match
-                            match={match}
-                            key={match.id}
-                            onMatchShortlisted={onMatchShortlisted}
-                            onMatchApplied={onMatchApplied}
-                            onMatchRemoval={setConfirmRemoval}
-                            onMatchDetails={onMatchDetails}
-                        />
-                    ))}
-                </div>
-                <Pagination page={page} items={matchList} itemsPerPage={itemsPerPage} />
-            </div>
-        )
+        <div className="flex flex-col gap-y-4">
+            <RemovalConfirmation
+                match={confirmRemoval}
+                isOpen={!!confirmRemoval}
+                onClose={(confirm) =>
+                    confirm && confirmRemoval
+                        ? onRemovalConfirmed(confirmRemoval)
+                        : setConfirmRemoval(null)
+                }
+            />
+            <MatchDetails
+                match={matchDetails}
+                onClose={() => setMatchDetails(null)}
+                isOpen={!!matchDetails}
+            />
+            {matchList && matchList.data && (
+                <>
+                    <div className={`container grid grid-cols-1 md:grid-cols-2 gap-4 z-0`}>
+                        {matchList.data.map((match: MatchType) => (
+                            <Match
+                                match={match}
+                                key={match.id}
+                                onMatchShortlisted={onMatchShortlisted}
+                                onMatchApplied={onMatchApplied}
+                                onMatchRemoval={setConfirmRemoval}
+                                onMatchDetails={onMatchDetails}
+                            />
+                        ))}
+                    </div>
+                    <Pagination page={page} items={matchList} itemsPerPage={itemsPerPage} />
+                </>
+            )}
+        </div>
     );
 }

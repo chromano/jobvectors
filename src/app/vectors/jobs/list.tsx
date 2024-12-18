@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import Loading from "@/components/loading";
 import { createClient } from "@/lib/supabase/server";
 import { getMatches } from "@/lib/data/matches";
+import { getResumes } from "@/lib/data/resume";
+import { ResumeDropdown } from "@/components/resume";
 
 const ITEMS_PER_PAGE = 30;
 
@@ -16,26 +18,16 @@ export default async function MatchList({
 }) {
     const supabase = await createClient();
     const user = await supabase.auth.getUser();
-    const resumes = await supabase
-        .from("resumes")
-        .select("id, title")
-        .eq("user", user.data.user?.id)
-        .order("created_at", { ascending: false });
-    let firstResume = null;
-    if (resumes.data && resumes.data.length > 0) {
-        firstResume = resumes.data[0].id;
-    }
-    const matches = await getMatches(
-        params.resume || firstResume,
-        filters,
-        params.page,
-        ITEMS_PER_PAGE,
-    );
+    const resumes = getResumes(supabase, user.data.user && user.data.user.id);
+    const matches =
+        params.resume && getMatches(params.resume, filters, params.page, ITEMS_PER_PAGE);
 
     return (
-        <div>
-            <Suspense fallback={<Loading />}>
-                <Matches resumes={resumes.data} matches={matches} itemsPerPage={ITEMS_PER_PAGE} />
+        <div className="flex flex-col gap-4">
+            <ResumeDropdown resumes={resumes} initial={params.resume} />
+
+            <Suspense key={Date.now()} fallback={<Loading />}>
+                <Matches matches={matches} itemsPerPage={ITEMS_PER_PAGE} />
             </Suspense>
         </div>
     );

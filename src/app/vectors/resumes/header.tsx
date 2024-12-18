@@ -3,7 +3,7 @@ import { ResumeForm } from "@/components/resume";
 import Modal from "@/components/modal";
 import { ResumeDropdown } from "@/components/resume";
 import { DialogTitle } from "@headlessui/react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SecondaryButton } from "@/components/button";
 import { useRouter } from "next/navigation";
@@ -53,7 +53,7 @@ const Header = ({ resumes }: { resumes: any }) => {
     return (
         <div className="flex flex-col items-center justify-center py-2">
             <div className="flex w-full flex-row gap-2">
-                <ResumeDropdown resumes={resumes} initial={params.get("resume") || resumes[0].id} />
+                <ResumeDropdown resumes={resumes} initial={params.get("resume")} />
                 <SecondaryButton onClick={onNewResume}>New Resume</SecondaryButton>
             </div>
             <NewResume isOpen={resumeFormOpened} onResumeCreated={onResumeCreated} />
