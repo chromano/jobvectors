@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, useTransition } from "react";
 import Match from "./match";
 import { Match as MatchType } from "@/lib/definitions";
 import { createClient } from "@/lib/supabase/client";
@@ -71,7 +71,7 @@ const MatchDetails = ({
             <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
                 {match?.job.role} at {match?.job.company}
             </DialogTitle>
-            <div>
+            <div className="pt-4 w-full">
                 <div className="flex justify-center mb-4">
                     <button
                         className={`py-0 px-4 font-semibold ${
@@ -92,9 +92,9 @@ const MatchDetails = ({
                         Coverletter
                     </button>
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 w-full h-72">
                     {activeTab === "Posting" && (
-                        <div className="h-full mb-4">
+                        <div className="h-full overflow-y-auto  mb-4">
                             <div className="flex flex-row gap-x-2 pr-4">
                                 <p className="flex-1">
                                     <strong>Location:</strong> {match?.job.location}
@@ -112,7 +112,7 @@ const MatchDetails = ({
                                     </a>
                                 </p>
                             </div>
-                            <div className="mt-4 max-h-72 overflow-y-scroll overflow-x-hidden pr-4">
+                            <div className="mt-4 overflow-y-auto overflow-x-hidden pr-4">
                                 <Prose>{match?.job.description}</Prose>
                                 <p className="mt-4">
                                     <strong>Apply:</strong>{" "}
@@ -127,12 +127,8 @@ const MatchDetails = ({
                         </div>
                     )}
                     {activeTab === "Coverletter" && (
-                        <div className="overflow-y-auto overflow-x-hidden max-h-72 mb-4">
-                            {coverletter ? (
-                                <Prose>{coverletter}</Prose>
-                            ) : (
-                                <Loading hideLabel={true} />
-                            )}
+                        <div className="w-full h-full overflow-y-auto overflow-x-hidden mb-4">
+                            {coverletter ? <Prose>{coverletter}</Prose> : <div>Loading</div>}
                         </div>
                     )}
                 </div>
@@ -151,21 +147,30 @@ export default function Matches({ matches, itemsPerPage }: { matches: any; items
     const [matchDetails, setMatchDetails] = useState<MatchType | null>(null);
     const page = parseInt(searchParams.get("page") || "0", 10);
     const router = useRouter();
+    const [isPending, startTransition] = useTransition();
+
+    console.log("pending", isPending);
 
     const onMatchShortlisted = (match: MatchType) => {
         shortlistMatch(match.id, !match.shortlisted);
-        router.refresh();
+        startTransition(() => {
+            router.refresh();
+        });
     };
 
     const onMatchApplied = async (match: MatchType) => {
         applyMatch(match.id, !match.applied);
-        router.refresh();
+        startTransition(() => {
+            router.refresh();
+        });
     };
 
     const onRemovalConfirmed = (match: MatchType) => {
         setConfirmRemoval(null);
         dismissMatch(match.id);
-        router.refresh();
+        startTransition(() => {
+            router.refresh();
+        });
     };
 
     const onMatchDetails = (match: MatchType) => {
@@ -175,6 +180,7 @@ export default function Matches({ matches, itemsPerPage }: { matches: any; items
 
     return (
         <div className="flex flex-col gap-y-4">
+            {isPending && <Loading />}
             <RemovalConfirmation
                 match={confirmRemoval}
                 isOpen={!!confirmRemoval}

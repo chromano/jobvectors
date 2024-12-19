@@ -29,7 +29,7 @@ export default async function MatchList({
         <div className="flex flex-col gap-4">
             <ResumeDropdown resumes={resumes} initial={resumeId} />
 
-            <Suspense key={Date.now()} fallback={<Loading />}>
+            <Suspense fallback={<Loading />}>
                 <Matches matches={matches} itemsPerPage={ITEMS_PER_PAGE} />
             </Suspense>
         </div>
