@@ -60,7 +60,7 @@ const Gauge = ({ perc }: { perc: number }) => {
             .attr("x1", 0)
             .attr("y1", 0)
             .attr("x2", 0)
-            .attr("y2", -radius * 0.6)
+            .attr("y2", -radius * 0.7)
             .attr("stroke", "#666")
             .attr("stroke-width", 2)
             .attr("transform", `translate(0, -10) rotate(-90)`);
