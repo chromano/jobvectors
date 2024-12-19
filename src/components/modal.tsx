@@ -26,7 +26,7 @@ export default function Modal({
                     <DialogPanel
                         as={motion.div}
                         className={
-                            size + "space-y-4 rounded border-2 border-purple-800 bg-white p-4"
+                            size + " space-y-4 rounded border-2 border-purple-800 bg-white p-4"
                         }>
                         {children}
                     </DialogPanel>
