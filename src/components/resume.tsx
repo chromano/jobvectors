@@ -37,7 +37,6 @@ function ResumeForm({ onComplete }: { onComplete: (id: string | number) => void 
         if (error) {
             console.error("Error uploading file:", error.message);
         } else {
-            console.log("File uploaded successfully:", data);
             onComplete(data.id);
         }
 

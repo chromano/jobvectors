@@ -149,8 +149,6 @@ export default function Matches({ matches, itemsPerPage }: { matches: any; items
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
 
-    console.log("pending", isPending);
-
     const onMatchShortlisted = (match: MatchType) => {
         shortlistMatch(match.id, !match.shortlisted);
         startTransition(() => {
@@ -174,7 +172,6 @@ export default function Matches({ matches, itemsPerPage }: { matches: any; items
     };
 
     const onMatchDetails = (match: MatchType) => {
-        console.log("Match details", match);
         setMatchDetails(match);
     };
 
