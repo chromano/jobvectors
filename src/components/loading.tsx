@@ -1,13 +1,12 @@
 export default function Loading({ hideLabel = false }: { hideLabel?: boolean }) {
     return (
-        <div
-            className={
-                "z-50 fixed top-2 left-1/2 bg-purple-800/75 text-white " +
-                (hideLabel ? "rounded-full" : "rounded")
-            }>
+        <div className="z-50 fixed top-2 left-0 w-full">
             <button
                 type="button"
-                className="mx-auto rounded flex flex-row font-semibold p-1"
+                className={
+                    "mx-auto flex flex-row font-semibold p-1 bg-purple-800/75 text-white " +
+                    (hideLabel ? "rounded-full" : "rounded")
+                }
                 disabled>
                 <svg
                     className={
