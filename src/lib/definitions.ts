@@ -3,6 +3,7 @@ type Match = {
     score: number;
     shortlisted: boolean;
     applied: boolean;
+    created_at: Date;
     job: {
         role: string;
         company: string;

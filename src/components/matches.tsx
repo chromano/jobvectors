@@ -34,7 +34,7 @@ const RemovalConfirmation = ({
     </Modal>
 );
 
-const MatchDetails = ({
+export const MatchDetails = ({
     isOpen,
     onClose,
     match,
@@ -71,58 +71,60 @@ const MatchDetails = ({
             <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
                 {match?.job.role} at {match?.job.company}
             </DialogTitle>
-            <div className="pt-4 w-full">
+            <div className="w-full">
                 <div className="flex justify-center mb-4">
                     <button
-                        className={`py-0 px-4 font-semibold ${
-                            activeTab === "Posting"
-                                ? "bg-purple-800 text-white rounded-full"
-                                : "text-purple-800"
+                        className={`py-0 px-4 font-semibold text-purple-800 ${
+                            activeTab === "Posting" && "bg-purple-100 rounded-full"
+                        }
                         }`}
                         onClick={() => setActiveTab("Posting")}>
                         Posting
                     </button>
                     <button
-                        className={`px-4 py-1 font-semibold ${
-                            activeTab === "Coverletter"
-                                ? "bg-purple-800 text-white rounded-full"
-                                : "text-purple-800"
+                        className={`px-4 py-1 font-semibold text-purple-800 ${
+                            activeTab === "Coverletter" && "bg-purple-100 rounded-full"
                         }`}
                         onClick={() => setActiveTab("Coverletter")}>
                         Coverletter
                     </button>
                 </div>
-                <div className="mb-4 w-full h-72">
+                <div className="w-full h-72 rounded">
                     {activeTab === "Posting" && (
-                        <div className="h-full overflow-y-auto  mb-4">
-                            <div className="flex flex-row gap-x-2 pr-4">
-                                <p className="flex-1">
-                                    <strong>Location:</strong> {match?.job.location}
-                                </p>
-                                <p>
-                                    <strong>Source:</strong>{" "}
-                                    <a
-                                        className="text-blue-500 hover:underline"
-                                        target="_blank"
-                                        href={
-                                            "https://news.ycombinator.com/item?id=" +
-                                            match?.job.source.split("-")[1]
-                                        }>
-                                        HackerNews
-                                    </a>
-                                </p>
-                            </div>
-                            <div className="mt-4 overflow-y-auto overflow-x-hidden pr-4">
-                                <Prose>{match?.job.description}</Prose>
-                                <p className="mt-4">
-                                    <strong>Apply:</strong>{" "}
-                                    <a
-                                        href={match?.job.apply_at}
-                                        target="_blank"
-                                        className="text-blue-500 hover:underline">
-                                        {match?.job.apply_at}
-                                    </a>
-                                </p>
+                        <div className="h-full overflow-y-auto">
+                            <div className="overflow-y-auto overflow-x-hidden">
+                                <div className="flex flex-row gap-x-4 mb-4">
+                                    <p>
+                                        <strong>Source:</strong>{" "}
+                                        <a
+                                            className="text-blue-500 hover:underline"
+                                            target="_blank"
+                                            href={
+                                                "https://news.ycombinator.com/item?id=" +
+                                                match?.job.source.split("-")[1]
+                                            }>
+                                            HackerNews
+                                        </a>
+                                    </p>
+
+                                    <p className="">
+                                        <strong>Location:</strong> {match?.job.location}
+                                    </p>
+                                </div>
+                                <div className="text-gray-600">
+                                    <Prose>{match?.job.description}</Prose>
+                                </div>
+                                <div className="flex flex-row gap-x-4">
+                                    <p className="">
+                                        <strong>Apply:</strong>{" "}
+                                        <a
+                                            href={match?.job.apply_at}
+                                            target="_blank"
+                                            className="text-blue-500 hover:underline">
+                                            {match?.job.apply_at}
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -132,9 +134,6 @@ const MatchDetails = ({
                         </div>
                     )}
                 </div>
-            </div>
-            <div className="flex justify-end gap-4">
-                <SecondaryButton onClick={() => onClose(null)}>Close</SecondaryButton>
             </div>
         </Modal>
     );
