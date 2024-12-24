@@ -23,18 +23,28 @@ export default function LastMatches({ matches }: { matches: any }) {
                             key={match.id}
                             onClick={() => setCurrentMatch(match)}
                             className="hover:text-gray-900 hover:cursor-pointer">
-                            <td className="whitespace-nowrap overflow-hidden text-ellipsis pr-2">
-                                {formatDistanceToNow(new Date(match.created_at), {
-                                    addSuffix: true,
-                                })}
+                            <td className="w-16 md:w-28 whitespace-nowrap overflow-hidden text-ellipsis pr-2">
+                                <div className="hidden md:table-cell">
+                                    {formatDistanceToNow(new Date(match.created_at), {
+                                        addSuffix: true,
+                                    })}
+                                </div>
+                                <div className="md:hidden">
+                                    {new Date(match.created_at).toLocaleDateString()}
+                                </div>
                             </td>
                             <td className="whitespace-nowrap overflow-hidden text-ellipsis px-2">
-                                {match.job.role}
+                                <div className="hidden md:table-cell overflow-hidden text-ellipsis">
+                                    {match.job.role}
+                                </div>
+                                <div className="md:hidden overflow-hidden text-ellipsis">
+                                    {match.job.role} at {match.job.company}
+                                </div>
                             </td>
-                            <td className="whitespace-nowrap overflow-hidden text-ellipsis px-2">
+                            <td className="hidden md:table-cell whitespace-nowrap overflow-hidden text-ellipsis px-2">
                                 {match.job.company}
                             </td>
-                            <td className="whitespace-nowrap overflow-hidden text-ellipsis px-2 w-36">
+                            <td className="hidden md:table-cell whitespace-nowrap overflow-hidden text-ellipsis px-2 w-28">
                                 {match.job.location}
                             </td>
                             <td className="whitespace-nowrap overflow-hidden text-ellipsis pl-2 w-14">
