@@ -22,7 +22,7 @@ export default async function RootLayout({
     return (
         <div className="w-full lg:w-4/5 mx-auto font-[family-name:var(--font-geist-sans)]">
             <div className="md:hidden">
-                <Topbar user={user} />
+                <Topbar />
             </div>
 
             <div className="flex flex-1 flex-row">
