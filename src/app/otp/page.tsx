@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function Otp({ searchParams }: { searchParams: URLSearchParams }) {
+export default async function Otp({ searchParams }: { searchParams: any }) {
     const supabase = await createClient();
+    const params = await searchParams;
 
     await supabase.auth.verifyOtp({
-        token_hash: searchParams.get("code")!,
-        email: searchParams.get("email")!,
+        token_hash: params.get("code")!,
+        email: params.get("email")!,
         type: "email",
     });
 
