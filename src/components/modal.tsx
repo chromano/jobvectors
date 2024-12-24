@@ -25,9 +25,7 @@ export default function Modal({
                 <div className="fixed -top-40 inset-0 flex w-screen items-center justify-center p-4">
                     <DialogPanel
                         as={motion.div}
-                        className={
-                            size + " space-y-4 rounded border-2 border-purple-800 bg-white p-4"
-                        }>
+                        className={`w-full md:${size} space-y-4 rounded border-2 border-purple-800 bg-white p-4`}>
                         {children}
                     </DialogPanel>
                 </div>
