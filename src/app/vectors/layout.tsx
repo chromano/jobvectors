@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Sidebar from "@/components/sidebar";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/data/user";
+import Topbar from "@/components/topbar";
+
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +21,10 @@ export default async function RootLayout({
 
     return (
         <div className="w-full lg:w-4/5 mx-auto font-[family-name:var(--font-geist-sans)]">
+            <div className="md:hidden">
+                <Topbar user={user} />
+            </div>
+
             <div className="flex flex-1 flex-row">
                 <div className="hidden md:flex w-2/5 lg:w-1/3 h-screen sticky top-0 mx-2">
                     <Sidebar user={user} />
