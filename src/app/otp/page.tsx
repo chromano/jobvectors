@@ -1,15 +1,9 @@
+"use client";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 
-export default async function Otp({ searchParams }: { searchParams: any }) {
-    const supabase = await createClient();
-    const params = await searchParams;
-
-    await supabase.auth.verifyOtp({
-        token_hash: params.get("code")!,
-        email: params.get("email")!,
-        type: "email",
-    });
+export default async function Otp() {
+    const supabase = createClient();
 
     supabase.auth.getUser().then((response) => {
         if (response.data?.user) {
