@@ -23,7 +23,7 @@ const NewResume = ({
         <div className="w-20">
             <Modal isOpen={isOpen} size="w-1/3" onClose={() => null}>
                 <>
-                    <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis mb-4">
+                    <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis mb-4 dark:text-gray-200">
                         New Resume
                     </DialogTitle>
                     <ResumeForm onComplete={onComplete} />

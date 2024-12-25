@@ -31,7 +31,7 @@ export default async function ResumePage() {
         .map((skill: any) => skill.skill.toLowerCase());
 
     return (
-        <div>
+        <div className="text-gray-800 dark:text-gray-200">
             <Header resumes={resumes} />
 
             {resume && (
@@ -51,11 +51,11 @@ export default async function ResumePage() {
                                         <div
                                             key={skill}
                                             className={
-                                                "inline-flex text-sm tracking-wide border border-gray-200 text-gray-800 px-1 py-0.5 rounded " +
+                                                "inline-flex text-sm tracking-wide border  text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded " +
                                                 (demandedSkillNames.indexOf(skill.toLowerCase()) !=
                                                 -1
-                                                    ? "border-purple-500 "
-                                                    : "")
+                                                    ? "border-purple-500 dark:border-purple-400 "
+                                                    : "border-gray-200 dark:border-gray-700")
                                             }>
                                             {skill}
                                         </div>

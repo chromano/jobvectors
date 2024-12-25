@@ -23,7 +23,7 @@ export default function Scores({
 
     return (
         <>
-            <div className="mt-4 flex flex-row gap-4">
+            <div className="mt-4 flex flex-row gap-4 text-gray-800 dark:text-gray-200">
                 <div className="w-1/3 max-w-32 mx-auto">
                     <div className="font-semibold text-center mb-2">Score</div>
                     <Gauge perc={scoreData} />

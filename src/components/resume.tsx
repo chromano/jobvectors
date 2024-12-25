@@ -48,8 +48,8 @@ function ResumeForm({ onComplete }: { onComplete: (id: string | number) => void 
     return (
         <div className="w-full rounded">
             <form inert={uploading} onSubmit={handleSubmit} className="">
-                {error && <p className="text-red-500 my-2">{error}</p>}
-                {message && <p className="text-green-700 my-2">{message}</p>}
+                {error && <p className="text-red-500 my-2 dark:text-red-200">{error}</p>}
+                {message && <p className="text-green-700 my-2 dark:text-green-200">{message}</p>}
 
                 <div className="mb-4">
                     <input
@@ -135,31 +135,31 @@ function ResumeDropdown({ resumes, initial }: { resumes: any; initial: any }) {
         resumeList.data && (
             <Menu as="div" className="relative inline-block text-left w-full">
                 <div>
-                    <Menu.Button className="inline-flex justify-between w-full rounded ring-1 ring-gray-300 px-2 py-1 bg-white font-medium text-gray-500 hover:bg-gray-50">
+                    <Menu.Button className="inline-flex justify-between w-full rounded ring-1 ring-gray-300 px-2 py-1 font-medium text-gray-500 dark:text-gray-100 dark:hover:bg-gray-800/80 hover:bg-gray-50">
                         {({ open }) =>
                             open ? (
                                 <>
                                     {selected?.id ? (
-                                        <span className="text-gray-800">{selected.title}</span>
+                                        <span className="">{selected.title}</span>
                                     ) : (
                                         "Select"
                                     )}
-                                    <ChevronUpIcon className="text-gray-400 w-4 h-4 mt-1" />
+                                    <ChevronUpIcon className=" w-4 h-4 mt-1" />
                                 </>
                             ) : (
                                 <>
                                     {selected?.id ? (
-                                        <span className="text-gray-800">{selected.title}</span>
+                                        <span className="">{selected.title}</span>
                                     ) : (
                                         "Select"
                                     )}
-                                    <ChevronDownIcon className="text-gray-400 w-4 h-4 mt-1" />
+                                    <ChevronDownIcon className=" w-4 h-4 mt-1" />
                                 </>
                             )
                         }
                     </Menu.Button>
                 </div>
-                <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-full p-1 rounded bg-white border border-gray-300 ring-opacity-50 focus:outline-none">
+                <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-full p-1 rounded bg-white/80 dark:bg-gray-800/80 border border-gray-300 ring-opacity-50 focus:outline-none">
                     <div className="overflow-hidden overflow-y-scroll max-h-64">
                         {resumeList.data.map((resume: any) => (
                             <Menu.Item key={resume.id}>
@@ -170,7 +170,9 @@ function ResumeDropdown({ resumes, initial }: { resumes: any; initial: any }) {
                                             onChange(resume);
                                         }}
                                         className={`${
-                                            active ? "bg-purple-100 text-gray-900" : "text-gray-700"
+                                            active
+                                                ? "bg-purple-100 text-gray-900"
+                                                : "text-gray-700 dark:text-gray-200"
                                         }  group flex rounded items-center w-[calc(100%-3px)] px-2 py-1`}>
                                         {resume.title}
                                     </button>

@@ -7,7 +7,7 @@ export default async function Home() {
     const applications = getLastApplications();
 
     return (
-        <div className="w-full font-[family-name:var(--font-nunito-sans)] flex flex-col gap-8">
+        <div className="w-full font-[family-name:var(--font-nunito-sans)] flex flex-col gap-8 text-gray-800 dark:text-gray-300">
             <div>
                 <h2 className="font-semibold text-lg mb-4">Last matches</h2>
                 <LastMatches matches={matches} />

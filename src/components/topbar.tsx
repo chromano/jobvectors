@@ -45,16 +45,18 @@ export default function Topbar() {
     const pathname = usePathname();
 
     return (
-        <div className="md:hidden flex flex-row justify-between p-4 sticky top-0 z-40 bg-white">
+        <div className="md:hidden flex flex-row justify-between p-4 sticky top-0 z-40">
             <div className="w-12">
                 <Logo />
             </div>
             <div className="overflow-hidden">
                 <Menu>
                     <MenuButton>
-                        <Bars3Icon className="w-6" />
+                        <Bars3Icon className="w-6 text-purple-800 dark:text-purple-100" />
                     </MenuButton>
-                    <MenuItems anchor="bottom" className="bg-white mt-6 ml-2 w-full h-full">
+                    <MenuItems
+                        anchor="bottom"
+                        className="bg-white dark:bg-slate-800 mt-6 ml-2 w-full h-full">
                         <MenuItem>
                             <nav className="flex flex-1 flex-col mr-4">
                                 <ul role="list" className="space-y-1">
@@ -67,7 +69,7 @@ export default function Topbar() {
                                                         pathname === item.href
                                                             ? "bg-purple-800 text-white rounded font-semibold"
                                                             : "hover:bg-purple-50",
-                                                        "group flex gap-x-3 p-1 pl-2 text-gray-700",
+                                                        "group flex gap-x-3 p-1 pl-2 text-gray-700 dark:text-gray-200",
                                                     )}>
                                                     <item.icon
                                                         aria-hidden="true"
@@ -85,7 +87,7 @@ export default function Topbar() {
                                                     <DisclosureButton
                                                         disabled={true}
                                                         className={
-                                                            "hover:bg-purple-50 group flex w-full gap-x-3 rounded-md p-1 pl-2 text-left text-gray-700"
+                                                            "hover:bg-purple-50 group flex w-full gap-x-3 rounded-md p-1 pl-2 text-left text-gray-700 dark:text-gray-200"
                                                         }>
                                                         <item.icon
                                                             aria-hidden="true"
@@ -104,7 +106,7 @@ export default function Topbar() {
                                                                         pathname === subItem.href
                                                                             ? "bg-purple-800 text-white rounded font-semibold"
                                                                             : "hover:bg-purple-50",
-                                                                        "group flex gap-x-3 rounded p-1 pr-0 pl-8 text-left text-gray-700",
+                                                                        "group flex gap-x-3 rounded p-1 pr-0 pl-8 text-left text-gray-700 dark:text-gray-200",
                                                                     )}>
                                                                     <subItem.icon
                                                                         aria-hidden="true"

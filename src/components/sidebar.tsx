@@ -47,7 +47,7 @@ export default function Sidebar({ user }: { user: any }) {
     const pathname = usePathname();
 
     return (
-        <div className="h-full flex grow flex-col gap-y-8 overflow-y-auto border-gray-200 bg-white pt-4">
+        <div className="h-full flex grow flex-col gap-y-8 overflow-y-auto pt-4">
             <div className="w-16 mx-auto mt-8">
                 <Logo />
             </div>
@@ -60,17 +60,17 @@ export default function Sidebar({ user }: { user: any }) {
                                     href={item.href}
                                     className={classNames(
                                         pathname === item.href
-                                            ? "bg-purple-800 text-white rounded font-semibold"
-                                            : "hover:bg-purple-50",
-                                        "group flex gap-x-3 p-1 pl-2 text-gray-700",
+                                            ? "bg-purple-800 dark:bg-purple-200 dark:text-purple-800 text-white font-semibold"
+                                            : "hover:bg-purple-100 dark:hover:text-purple-800 dark:text-gray-300 hover:dark:text-gray-800",
+                                        "group flex gap-x-3 p-1 pl-2 rounded",
                                     )}>
                                     <item.icon
                                         aria-hidden="true"
                                         className={
                                             "size-6 shrink-0 " +
                                             (item.href === pathname
-                                                ? "text-white"
-                                                : "text-gray-400")
+                                                ? "text-white dark:text-purple-800"
+                                                : "text-gray-400 group-hover:dark:text-purple-800")
                                         }
                                     />
                                     {item.name}
@@ -83,16 +83,16 @@ export default function Sidebar({ user }: { user: any }) {
                                     )}>
                                     <DisclosureButton
                                         className={
-                                            "hover:bg-purple-50 group flex w-full gap-x-3 rounded-md p-1 pl-2 text-left text-gray-700"
+                                            "hover:bg-purple-100 group flex w-full gap-x-3 rounded-md p-1 pl-2 text-left text-gray-700 dark:text-gray-300 hover:dark:text-purple-800 hover:text-gray-800"
                                         }>
                                         <item.icon
                                             aria-hidden="true"
-                                            className="size-6 shrink-0 text-gray-400"
+                                            className="size-6 shrink-0 text-gray-400 group-hover:dark:text-purple-800"
                                         />
                                         {item.name}
                                         <ChevronRightIcon
                                             aria-hidden="true"
-                                            className="ml-auto size-5 shrink-0 text-gray-400 group-data-[open]:rotate-90 group-data-[open]:text-gray-500"
+                                            className="ml-auto size-5 shrink-0 text-gray-400 group-hover:dark:text-purple-800 group-data-[open]:rotate-90 group-data-[open]:text-gray-500"
                                         />
                                     </DisclosureButton>
                                     <DisclosurePanel as="ul" className="mt-1 space-y-1">
@@ -102,17 +102,17 @@ export default function Sidebar({ user }: { user: any }) {
                                                     href={subItem.href}
                                                     className={classNames(
                                                         pathname === subItem.href
-                                                            ? "bg-purple-800 text-white rounded font-semibold"
-                                                            : "hover:bg-purple-50",
-                                                        "group flex gap-x-3 rounded p-1 pr-0 pl-8 text-left text-gray-700",
+                                                            ? "bg-purple-800 text-white rounded font-semibold dark:bg-purple-200 dark:text-purple-800"
+                                                            : "hover:bg-purple-100 hover:dark:text-purple-800 dark:text-gray-300",
+                                                        "group flex gap-x-3 rounded p-1 pr-0 pl-8 text-left text-gray-700 ",
                                                     )}>
                                                     <subItem.icon
                                                         aria-hidden="true"
                                                         className={
                                                             "size-6 shrink-0 " +
                                                             (pathname === subItem.href
-                                                                ? "text-white"
-                                                                : "text-gray-400")
+                                                                ? "text-white dark:text-purple-800"
+                                                                : "text-gray-400 group-hover:dark:text-purple-800")
                                                         }
                                                     />
                                                     {subItem.name}

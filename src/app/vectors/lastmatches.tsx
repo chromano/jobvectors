@@ -23,7 +23,7 @@ export default function LastMatches({ matches }: { matches: any }) {
                             <tr
                                 key={match.id}
                                 onClick={() => setCurrentMatch(match)}
-                                className="hover:text-gray-900 hover:cursor-pointer">
+                                className="hover:text-gray-900 dark:hover:text-gray-200 hover:cursor-pointer">
                                 <td className="w-16 md:w-28 whitespace-nowrap overflow-hidden text-ellipsis pr-2">
                                     <div className="hidden md:table-cell">
                                         {formatDistanceToNow(new Date(match.created_at), {

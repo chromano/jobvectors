@@ -1,6 +1,6 @@
 const Button = ({ children, onClick }: { children: React.ReactNode; onClick: () => void }) => (
     <button
-        className="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 font-semibold text-purple-800 shadow-sm hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+        className="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 font-semibold text-purple-800 dark:text-purple-200 shadow-sm hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
         onClick={onClick}>
         {children}
     </button>

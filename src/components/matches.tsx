@@ -24,8 +24,10 @@ const RemovalConfirmation = ({
     <Modal size="w-1/2" isOpen={isOpen} onClose={() => onClose(null)}>
         <DialogTitle className="font-bold">Match Removal</DialogTitle>
         <Description>
-            This will permanently remove the match. You can always keep a shortlist of relevant
-            matches instead of deleting irrelevant ones.
+            <p className="text-gray-800 dark:text-gray-200">
+                This will permanently remove the match. You can always keep a shortlist of relevant
+                matches instead of deleting irrelevant ones.
+            </p>
         </Description>
         <div className="flex justify-end gap-4">
             <Button onClick={() => onClose(null)}>Cancel</Button>
@@ -68,32 +70,34 @@ export const MatchDetails = ({
 
     return (
         <Modal size="w-1/2" isOpen={isOpen} onClose={close}>
-            <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis">
+            <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis text-gray-800 dark:text-gray-200">
                 {match?.job.role} at {match?.job.company}
             </DialogTitle>
             <div className="w-full">
                 <div className="flex justify-center mb-4">
                     <button
-                        className={`py-0 px-4 font-semibold text-purple-800 ${
-                            activeTab === "Posting" && "bg-purple-100 rounded-full"
+                        className={`py-0 px-4 font-semibold text-purple-800 dark:text-purple-200 ${
+                            activeTab === "Posting" &&
+                            "bg-purple-100 dark:text-gray-800 text-purple-800 rounded-full"
                         }
                         }`}
                         onClick={() => setActiveTab("Posting")}>
                         Posting
                     </button>
                     <button
-                        className={`px-4 py-1 font-semibold text-purple-800 ${
-                            activeTab === "Coverletter" && "bg-purple-100 rounded-full"
+                        className={`px-4 py-1 font-semibold text-purple-800 dark:text-purple-200 ${
+                            activeTab === "Coverletter" &&
+                            "bg-purple-100 dark:text-gray-800 text-purple-800 rounded-full"
                         }`}
                         onClick={() => setActiveTab("Coverletter")}>
                         Coverletter
                     </button>
                 </div>
-                <div className="w-full h-72 rounded">
+                <div className="w-full h-full rounded">
                     {activeTab === "Posting" && (
                         <div className="h-full overflow-y-auto">
                             <div className="overflow-y-auto overflow-x-hidden">
-                                <div className="flex flex-row gap-x-4 mb-4">
+                                <div className="flex flex-row gap-x-4 mb-4 text-gray-600 dark:text-gray-200">
                                     <p>
                                         <strong>Source:</strong>{" "}
                                         <a
@@ -111,10 +115,10 @@ export const MatchDetails = ({
                                         <strong>Location:</strong> {match?.job.location}
                                     </p>
                                 </div>
-                                <div className="text-gray-600">
+                                <div className="text-gray-600 dark:text-gray-200">
                                     <Prose>{match?.job.description}</Prose>
                                 </div>
-                                <div className="flex flex-row gap-x-4">
+                                <div className="flex flex-row gap-x-4 text-gray-600 dark:text-gray-200">
                                     <p className="">
                                         <strong>Apply:</strong>{" "}
                                         <a
