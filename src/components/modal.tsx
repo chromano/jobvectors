@@ -14,7 +14,7 @@ export default function Modal({
 }) {
     return (
         <AnimatePresence>
-            <Dialog open={isOpen} onClose={() => onClose(null)} className="relative z-50">
+            <Dialog open={isOpen} onClose={() => onClose(null)} className="relative z-50 h-full">
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

@@ -70,73 +70,78 @@ export const MatchDetails = ({
 
     return (
         <Modal size="w-1/2" isOpen={isOpen} onClose={close}>
-            <DialogTitle className="font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis text-gray-800 dark:text-gray-200">
-                {match?.job.role} at {match?.job.company}
-            </DialogTitle>
-            <div className="w-full">
-                <div className="flex justify-center mb-4">
-                    <button
-                        className={`py-0 px-4 font-semibold text-purple-800 dark:text-purple-200 ${
-                            activeTab === "Posting" &&
-                            "bg-purple-100 dark:text-gray-800 text-purple-800 rounded-full"
-                        }
+            <div className="flex flex-col h-full gap-y-4">
+                <DialogTitle className="flex-none font-bold text-lg whitespace-nowrap overflow-x-hidden text-ellipsis text-gray-800 dark:text-gray-200">
+                    {match?.job.role} at {match?.job.company}
+                </DialogTitle>
+                <div className="w-full flex-col grow">
+                    <div className="flex-none text-center mb-4">
+                        <button
+                            className={`py-0 px-4 font-semibold text-purple-800 dark:text-purple-200 ${
+                                activeTab === "Posting" &&
+                                "bg-purple-100 dark:text-gray-800 text-purple-800 rounded-full"
+                            }
                         }`}
-                        onClick={() => setActiveTab("Posting")}>
-                        Posting
-                    </button>
-                    <button
-                        className={`px-4 py-1 font-semibold text-purple-800 dark:text-purple-200 ${
-                            activeTab === "Coverletter" &&
-                            "bg-purple-100 dark:text-gray-800 text-purple-800 rounded-full"
-                        }`}
-                        onClick={() => setActiveTab("Coverletter")}>
-                        Coverletter
-                    </button>
-                </div>
-                <div className="w-full h-full rounded">
-                    {activeTab === "Posting" && (
-                        <div className="h-full overflow-y-auto">
-                            <div className="overflow-y-auto overflow-x-hidden">
-                                <div className="flex flex-row gap-x-4 mb-4 text-gray-600 dark:text-gray-200">
-                                    <p>
-                                        <strong>Source:</strong>{" "}
-                                        <a
-                                            className="text-blue-500 hover:underline"
-                                            target="_blank"
-                                            href={
-                                                "https://news.ycombinator.com/item?id=" +
-                                                match?.job.source.split("-")[1]
-                                            }>
-                                            HackerNews
-                                        </a>
-                                    </p>
+                            onClick={() => setActiveTab("Posting")}>
+                            Posting
+                        </button>
+                        <button
+                            className={`px-4 py-1 font-semibold text-purple-800 dark:text-purple-200 ${
+                                activeTab === "Coverletter" &&
+                                "bg-purple-100 dark:text-gray-800 text-purple-800 rounded-full"
+                            }`}
+                            onClick={() => setActiveTab("Coverletter")}>
+                            Coverletter
+                        </button>
+                    </div>
+                    <div className="grow">
+                        {activeTab === "Posting" && (
+                            <div className="overflow-y-auto">
+                                <div className="overflow-y-auto overflow-x-hidden">
+                                    <div className="flex flex-row gap-x-4 mb-4 text-gray-600 dark:text-gray-200">
+                                        <p className="whitespace-nowrap">
+                                            <strong>Source:</strong>{" "}
+                                            <a
+                                                className="text-blue-500 hover:underline"
+                                                target="_blank"
+                                                href={
+                                                    "https://news.ycombinator.com/item?id=" +
+                                                    match?.job.source.split("-")[1]
+                                                }>
+                                                HackerNews
+                                            </a>
+                                        </p>
 
-                                    <p className="">
-                                        <strong>Location:</strong> {match?.job.location}
-                                    </p>
-                                </div>
-                                <div className="text-gray-600 dark:text-gray-200">
-                                    <Prose>{match?.job.description}</Prose>
-                                </div>
-                                <div className="flex flex-row gap-x-4 text-gray-600 dark:text-gray-200">
-                                    <p className="">
-                                        <strong>Apply:</strong>{" "}
-                                        <a
-                                            href={match?.job.apply_at}
-                                            target="_blank"
-                                            className="text-blue-500 hover:underline">
-                                            {match?.job.apply_at}
-                                        </a>
-                                    </p>
+                                        <p className="whitespace-nowrap overflow-hidden text-ellipsis">
+                                            <strong>Location:</strong> {match?.job.location}
+                                        </p>
+                                    </div>
+                                    <div className="text-gray-600 dark:text-gray-200">
+                                        <Prose>{match?.job.description}</Prose>
+                                    </div>
+                                    <div className="flex flex-row gap-x-4 text-gray-600 dark:text-gray-200">
+                                        <p className="">
+                                            <strong>Apply:</strong>{" "}
+                                            <a
+                                                href={match?.job.apply_at}
+                                                target="_blank"
+                                                className="text-blue-500 hover:underline">
+                                                {match?.job.apply_at}
+                                            </a>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                    {activeTab === "Coverletter" && (
-                        <div className="w-full h-full overflow-y-auto overflow-x-hidden mb-4">
-                            {coverletter ? <Prose>{coverletter}</Prose> : <div>Loading</div>}
-                        </div>
-                    )}
+                        )}
+                        {activeTab === "Coverletter" && (
+                            <div className="w-full h-full overflow-y-auto overflow-x-hidden mb-4">
+                                {coverletter ? <Prose>{coverletter}</Prose> : <div>Loading</div>}
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div className="flex-none text-right">
+                    <SecondaryButton onClick={close}>Close</SecondaryButton>
                 </div>
             </div>
         </Modal>
